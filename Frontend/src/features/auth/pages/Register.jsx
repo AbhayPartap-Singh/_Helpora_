@@ -1,12 +1,42 @@
 import React, { useState } from 'react';
+import useAuth from '../hook/useAuth.js';
 
 const Register = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const {handleRegister} = useAuth()
+
+    const [formData, setFormData] = useState({
+        name: '',
+        companyName: '',
+        email: '',
+        password:'',
+        companyName: ''
+    })
+
+    const handleChange = (e) => {
+        const {name, value} = e.target
+        setFormData(prev => ({...prev, [name]: value}))
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        await handleRegister({
+            name: formData.name,
+            email: formData.email,
+            password: formData.password,
+            companyName: formData.companyName
+        })
+
+        navigate("/")
+    }
+
+    }
 
     return (
         <div className="min-h-screen flex bg-slate-50 font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900">
             {/* Left Column: Brand Highlights & Visual */}
-            <section className="hidden lg:flex flex-1 relative flex-col  p-12 bg-gradient-to-br from-indigo-50/80 via-white to-slate-100/50 overflow-hidden border-r border-slate-200">
+            <section className="hidden lg:flex flex-1 relative flex-col justify-center p-12 bg-gradient-to-br from-indigo-50/80 via-white to-slate-100/50 overflow-hidden border-r border-slate-200">
                 {/* Brand Identity */}
                 <div className="z-10">
                     <span className="text-indigo-600 font-extrabold text-2xl tracking-tight">Helpora</span>
@@ -101,7 +131,8 @@ const Register = () => {
                         </div>
 
                         {/* Form */}
-                        <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+                        <form className="space-y-4" onSubmit={handleSubmit}>
+
                             <div className="space-y-1.5">
                                 <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide px-1" htmlFor="full_name">Full Name</label>
                                 <input 
@@ -109,6 +140,9 @@ const Register = () => {
                                     id="full_name" 
                                     className="w-full h-11 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400 text-sm" 
                                     placeholder="John Doe" 
+                                    name="name"
+                                    value={formdata.name}
+                                    onChange={handleChange}
                                 />
                             </div>
 
@@ -118,7 +152,10 @@ const Register = () => {
                                     type="email" 
                                     id="work_email" 
                                     className="w-full h-11 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400 text-sm" 
-                                    placeholder="john@company.com" 
+                                    placeholder="john@company.com"
+                                    value={formdata.email}
+                                    onChange={handleChange}
+                                    name="email" 
                                 />
                             </div>
 
@@ -129,6 +166,9 @@ const Register = () => {
                                     id="company_name" 
                                     className="w-full h-11 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400 text-sm" 
                                     placeholder="Acme Inc." 
+                                    name="companyName"
+                                    value={formdata.companyName}
+                                    onChange={handleChange}
                                 />
                             </div>
 
@@ -140,6 +180,9 @@ const Register = () => {
                                         id="password" 
                                         className="w-full h-11 pl-4 pr-11 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400 text-sm" 
                                         placeholder="••••••••" 
+                                        name="password"
+                                        value={formdata.password}
+                                        onChange={handleChange}
                                     />
                                     <button 
                                         type="button"

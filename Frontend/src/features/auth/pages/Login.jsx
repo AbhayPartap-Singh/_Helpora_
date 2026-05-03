@@ -3,6 +3,30 @@ import React, { useState } from 'react';
 const Login = () => {
     const [showPassword, setShowPassword] = useState(false);
 
+    const { handleLogin } = useAuth();
+    const navigate = useNavigate();
+
+    const [formData, setFormData] = useState({
+        email:'',
+        password:'',
+    })
+
+    const handleChange = (e) => {
+        const {name, value} = e.target
+        setFormData(prev => ({...prev, [name]: value}))
+    }
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+
+        await handleLogin({
+            email: formData.email,
+            password: formData.password
+        })
+
+        navigate("/")
+    }
+
     return (
         <div className="min-h-screen flex items-center justify-center bg-slate-50 font-sans text-slate-900 selection:bg-indigo-100 selection:text-indigo-900 p-6 relative overflow-hidden">
             {/* Background Decorative Elements */}
@@ -42,7 +66,7 @@ const Login = () => {
                     </div>
 
                     {/* Form */}
-                    <form className="space-y-5" onSubmit={(e) => e.preventDefault()}>
+                    <form className="space-y-5" onSubmit={handleSubmit}>
                         <div className="space-y-1.5">
                             <label className="text-xs font-semibold text-slate-600 uppercase tracking-wide px-1" htmlFor="email">Email</label>
                             <input 
@@ -50,6 +74,9 @@ const Login = () => {
                                 id="email" 
                                 className="w-full h-11 px-4 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400 text-sm" 
                                 placeholder="name@company.com" 
+                                name="email"
+                                value={formData.email}
+                                onChange={handleChange}
                             />
                         </div>
 
@@ -64,6 +91,9 @@ const Login = () => {
                                     id="password" 
                                     className="w-full h-11 pl-4 pr-11 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all placeholder:text-slate-400 text-sm" 
                                     placeholder="••••••••" 
+                                    name='password'
+                                    value={formData.password}
+                                    onChange={handleChange}
                                 />
                                 <button 
                                     type="button"
