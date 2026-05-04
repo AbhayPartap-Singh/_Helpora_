@@ -8,7 +8,7 @@ import OTP from "../models/otp.model.js";
 import { generateOTP } from "../utils/generateOTP.js";
 import { sendOTPEmail } from "../services/email.service.js";
 
-/* ---------------- REGISTER ---------------- */
+/* REGISTER  */
 export const register = async (req, res) => {
   try {
     const { name, email, password, companyName } = req.body;
@@ -32,7 +32,7 @@ export const register = async (req, res) => {
       tenantId: tenant._id,
       role: "owner",
       isVerified: false,
-      authProvider: "local", // ✅ FIX
+      authProvider: "local", 
     });
 
     tenant.ownerId = user._id;
@@ -64,7 +64,7 @@ export const register = async (req, res) => {
   }
 };
 
-/* ---------------- VERIFY OTP ---------------- */
+/* VERIFY OTP */
 export const verifyOTP = async (req, res) => {
   try {
     const { email, otp } = req.body;
@@ -94,7 +94,7 @@ export const verifyOTP = async (req, res) => {
   }
 };
 
-/* ---------------- LOGIN ---------------- */
+/* LOGIN  */
 export const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -133,7 +133,7 @@ export const login = async (req, res) => {
   }
 };
 
-/* ---------------- GOOGLE CALLBACK ---------------- */
+/* GOOGLE CALLBACK */
 export const googleCallback = async (req, res) => {
   try {
     const profile = req.user;
@@ -157,7 +157,7 @@ export const googleCallback = async (req, res) => {
       user = await User.create({
         name,
         email,
-        password: undefined, // ✅ FIX
+        password: undefined, 
         tenantId: tenant._id,
         role: "owner",
         isVerified: true,

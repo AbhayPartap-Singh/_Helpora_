@@ -8,6 +8,8 @@ import passport from "./config/passport.js";
 
 
 import authRoutes from "./routes/auth.routes.js";
+import chatRoutes from "./routes/chat.routes.js";
+
 
 dotenv.config();
 
@@ -29,6 +31,9 @@ app.get("/", (req, res) => {
  *  AUTH ROUTES ONLY
  */
 app.use("/api/auth", authRoutes);
+
+/*Chats*/
+app.use("/api/chat", chatRoutes);
 
 
 app.use((req, res) => {

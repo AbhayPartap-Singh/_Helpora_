@@ -1,7 +1,7 @@
 import jwt from "jsonwebtoken";
 
 /**
- * 🔐 Generate Access Token
+ Generate Access Token
  * Used after login / auth
  */
 export const generateToken = (user) => {
